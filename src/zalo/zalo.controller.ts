@@ -13,6 +13,12 @@ export class ZaloController {
     return this.zaloService.sendMessage(createZaloDto.text);
   }
 
+  @Get("send")
+  sendMessage1(@Body() createZaloDto: any) {
+    console.log(createZaloDto)
+    return this.zaloService.sendMessage(createZaloDto.text);
+  }
+
   @Post()
   create(@Body() createZaloDto: CreateZaloDto) {
     return this.zaloService.create(createZaloDto);
