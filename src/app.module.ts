@@ -6,6 +6,7 @@ import { ProductModule } from "./product/product.module";
 import { AuthModule } from "./auth/auth.module";
 import { JwtModule } from "@nestjs/jwt";
 import { JwtStrategy } from "./strategy/jwt.strategy";
+import { ZaloModule } from './zalo/zalo.module';
 
 @Module({
 	imports: [
@@ -16,6 +17,7 @@ import { JwtStrategy } from "./strategy/jwt.strategy";
 			secret: process.env.SECRET,
 			signOptions: { expiresIn: "5h" },
 		}),
+		ZaloModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, JwtStrategy],
