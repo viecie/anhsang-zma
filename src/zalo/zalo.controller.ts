@@ -3,16 +3,16 @@ import { ZaloService } from './zalo.service';
 import { CreateZaloDto } from './dto/create-zalo.dto';
 import { UpdateZaloDto } from './dto/update-zalo.dto';
 
+console.log("Outside: ", new Date())
 @Controller('zalo')
 export class ZaloController {
-  constructor(private readonly zaloService: ZaloService) {}
-
+    constructor(private readonly zaloService: ZaloService) {}
+    
   @Post("send")
   sendMessage(@Body() createZaloDto: any, @Req() req: any) {
     console.log(createZaloDto)
-    console.log("sucess")
-    console.log(req)
-    console.log(req?.body)
+    console.log("sucess", new Date())
+    console.log({reqBody: req?.body})
     return {result: "success"}
   }
 
@@ -24,8 +24,11 @@ export class ZaloController {
   }
 
   @Post()
-  create(@Body() createZaloDto: CreateZaloDto) {
-    return this.zaloService.create(createZaloDto);
+  create(@Body() createZaloDto: CreateZaloDto, @Req() req: any) {
+    console.log(createZaloDto)
+    console.log("sucess", new Date())
+    console.log({reqBody: req?.body})
+    return {result: "success"}
   }
 
   @Get()
