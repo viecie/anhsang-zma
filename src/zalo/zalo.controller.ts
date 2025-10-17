@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { ZaloService } from './zalo.service';
 import { CreateZaloDto } from './dto/create-zalo.dto';
 import { UpdateZaloDto } from './dto/update-zalo.dto';
@@ -8,9 +8,11 @@ export class ZaloController {
   constructor(private readonly zaloService: ZaloService) {}
 
   @Post("send")
-  sendMessage(@Body() createZaloDto: any) {
+  sendMessage(@Body() createZaloDto: any, @Req() req: any) {
     console.log(createZaloDto)
     console.log("sucess")
+    console.log(req)
+    console.log(req?.body)
     return {result: "success"}
   }
 
