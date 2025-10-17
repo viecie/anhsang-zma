@@ -9,6 +9,10 @@ async function bootstrap() {
 	app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 	app.enableCors();
 	app.use(express.static("."));
+
+    // app.use(express.urlencoded({ extended: true }));
+    // app.use(express.json());    
+
 	const config = new DocumentBuilder().build();
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup("swagger", app, document);
