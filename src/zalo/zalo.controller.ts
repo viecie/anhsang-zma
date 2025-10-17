@@ -10,13 +10,15 @@ export class ZaloController {
   @Post("send")
   sendMessage(@Body() createZaloDto: any) {
     console.log(createZaloDto)
-    return this.zaloService.sendMessage(createZaloDto.text);
+    console.log("sucess")
+    return {result: "success"}
   }
 
   @Get("send")
   sendMessage1(@Body() createZaloDto: any) {
     console.log(createZaloDto)
-    return this.zaloService.sendMessage(createZaloDto.text);
+    console.log("sucess")
+    return {result: "success"}
   }
 
   @Post()
