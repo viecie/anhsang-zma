@@ -25,8 +25,11 @@ export class ZaloService {
 		return `This action removes a #${id} zalo`;
 	}
 
-	async sendMessage(text: string) {
+	async sendMessage(reqBody) {
 		try {
+            const data = reqBody?.Notifications?.data[0]
+            console.log(data)
+            const text = data?.Description || "undefined"
 			const res = await fetch(this.webhookUrl, {
 				method: "POST",
 				headers: {

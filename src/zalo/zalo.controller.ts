@@ -10,10 +10,8 @@ export class ZaloController {
     
   @Post("send")
   sendMessage(@Body() createZaloDto: any, @Req() req: any) {
-    console.log(createZaloDto)
-    console.log("sucess", new Date())
-    console.log({reqBody: req?.body})
-    return {result: "success"}
+    console.log("Access to server at:", new Date())
+    return this.zaloService.sendMessage(req.body)
   }
 
   @Get("send")
