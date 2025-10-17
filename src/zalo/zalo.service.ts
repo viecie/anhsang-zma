@@ -27,10 +27,10 @@ export class ZaloService {
 
 	async sendMessage(reqBody) {
 		try {
-            console.log(reqBody?.Notifications)
-            const data = reqBody?.Notifications?.Data[0]
+            const data = reqBody?.Notifications[0].Data[0]
             console.log(data)
             const text = data?.Description || "undefined"
+            console.log({text})
 			const res = await fetch(this.webhookUrl, {
 				method: "POST",
 				headers: {
