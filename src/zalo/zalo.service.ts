@@ -4,7 +4,7 @@ import { UpdateZaloDto } from "./dto/update-zalo.dto";
 
 @Injectable()
 export class ZaloService {
-    private webhookUrl = "https://hooks.slack.com/services/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"
+    private webhookUrl = process.env.SLACK_URL || ""
 	create(createZaloDto: CreateZaloDto) {
 		return "This action adds a new zalo";
 	}
