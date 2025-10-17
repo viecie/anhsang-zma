@@ -27,7 +27,7 @@ export class ZaloService {
 
 	async sendMessage(reqBody) {
 		try {
-            const data = reqBody?.Notifications?.data[0]
+            const data = reqBody?.Notifications?.Data[0]
             console.log(data)
             const text = data?.Description || "undefined"
 			const res = await fetch(this.webhookUrl, {
