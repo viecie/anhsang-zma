@@ -7,6 +7,7 @@ import { AuthModule } from "./auth/auth.module";
 import { JwtModule } from "@nestjs/jwt";
 import { JwtStrategy } from "./strategy/jwt.strategy";
 import { ZaloModule } from './zalo/zalo.module';
+import { KiotvietModule } from './kiotviet/kiotviet.module';
 
 @Module({
 	imports: [
@@ -18,6 +19,7 @@ import { ZaloModule } from './zalo/zalo.module';
 			signOptions: { expiresIn: "5h" },
 		}),
 		ZaloModule,
+		KiotvietModule,
 	],
 	controllers: [AppController],
 	providers: [AppService, JwtStrategy],

@@ -1,51 +1,41 @@
 import { Injectable } from "@nestjs/common";
-import { CreateZaloDto } from "./dto/create-zalo.dto";
-import { UpdateZaloDto } from "./dto/update-zalo.dto";
+import { KiotVietWebhookRequest } from "./dto/invoice-zalo.dto";
+import axios from "axios";
+import { kiotvietApi } from "src/kiotviet/kiotviet.api";
+import { KiotvietService } from "src/kiotviet/kiotviet.service";
+import { zaloApi } from "./zalo.api";
 
 @Injectable()
 export class ZaloService {
-    private webhookUrl = process.env.SLACK_URL || ""
-	create(createZaloDto: CreateZaloDto) {
-		return "This action adds a new zalo";
-	}
+	constructor(private kiotViet: KiotvietService) {}
 
-	findAll() {
-		return `This action returns all zalo`;
-	}
+	private slackUrl = process.env.SLACK_URL || "";
 
-	findOne(id: number) {
-		return `This action returns a #${id} zalo`;
-	}
-
-	update(id: number, updateZaloDto: UpdateZaloDto) {
-		return `This action updates a #${id} zalo`;
-	}
-
-	remove(id: number) {
-		return `This action removes a #${id} zalo`;
-	}
-
-	async sendMessage(reqBody) {
+	async sendMessage(reqBody: KiotVietWebhookRequest) {
 		try {
-            const data = reqBody?.Notifications[0].Data[0]
-            console.log(data)
-            const text = data?.Description || "undefined"
-            console.log({text})
-			const res = await fetch(this.webhookUrl, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ text }),
+			const data = reqBody.Notifications[0].Data[0];
+			const text = data.Description || "undefined";
+
+			// Get invoice detail
+			const invoiceCode = data.Code;
+			// const kiot = await kiotvietApi.get(`/invoices/code/${invoiceId}`)
+			// console.log(kiot.data)
+			const invoice = await this.kiotViet.getInvoiceDetail(invoiceCode);
+			const invoiceDetails = invoice.invoiceDetails;
+			const soldProducts = invoiceDetails.map((i) => {
+				return {
+					productName: i.productName,
+					warrantyCode: i.note,
+				};
 			});
+			const zaloConfig = {
+				recipient: {
+					user_id: "7210091149305604338",
+				},
+                message: {"text": JSON.stringify(soldProducts)}
+			};
+			await zaloApi.post("/message/cs", zaloConfig);
 
-			if (!res.ok) {
-				const msg = await res.text();
-				console.error("❌ Slack Error:", msg);
-				throw new Error(`Slack returned ${res.status}`);
-			}
-
-			console.log("✅ Sent to Slack successfully");
 			return { success: true };
 		} catch (err) {
 			console.error("❌ Slack send failed:", err);
