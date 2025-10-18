@@ -14,14 +14,7 @@ export class ZaloService {
 	async sendMessage(reqBody: KiotVietWebhookRequest) {
 		try {
 			const data = reqBody.Notifications[0].Data[0];
-			const action = reqBody.Notifications[0].Action;
-			console.log({ action });
-			const text = data.Description || "undefined";
-
-			// Get invoice detail
 			const invoiceCode = data.Code;
-			// const kiot = await kiotvietApi.get(`/invoices/code/${invoiceId}`)
-			// console.log(kiot.data)
 			const invoice = await this.kiotViet.getInvoiceDetail(invoiceCode);
 			const invoiceDetails = invoice.invoiceDetails;
 			const soldProducts = invoiceDetails.map((i) => {
