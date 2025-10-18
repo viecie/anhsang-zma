@@ -26,8 +26,8 @@ export class ZaloService {
 			const invoiceDetails = invoice.invoiceDetails;
 			const soldProducts = invoiceDetails.map((i) => {
 				return {
-					key: i.productName,
-					value: i.note,
+					name: i.productName,
+					code: i.note,
 				};
 			});
 			const zaloConfig = {
@@ -35,23 +35,7 @@ export class ZaloService {
 					user_id: "7210091149305604338",
 				},
 				message: {
-					// text: "Hello from backend"
-					attachment: {
-						type: "template",
-						payload: {
-							template_type: "transaction_account",
-							elements: [
-								{
-									title: "Bảo Hành Điện Tử",
-									// subtitle: "Đang yêu cầu thông tin từ bạn",
-								},
-								{
-									type: "table",
-									content: soldProducts,
-								},
-							],
-						},
-					},
+					text: `Bảo hành điện tử\n${soldProducts.map(i => `${i.name}: ${i.code}`).join("\n")}\nBảo hành đến hết ngày 31/12/2026`
 				},
 			};
 			await zaloApi
